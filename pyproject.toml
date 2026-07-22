@@ -1,0 +1,91 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "llm-apt"
+version = "0.4.0"
+description = "A reproducible evaluation toolchain for discovering programming capability boundaries of large language models."
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+license = { text = "Apache-2.0" }
+authors = [
+  { name = "LLM-APT Contributors" },
+]
+keywords = ["llm", "code-generation", "benchmark", "evaluation", "testing"]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Testing",
+]
+dependencies = [
+  "alembic>=1.16,<2",
+  "asyncpg>=0.30,<1",
+  "celery>=5.5,<6",
+  "fastapi>=0.116,<1",
+  "httpx>=0.28,<1",
+  "pydantic-settings>=2.10,<3",
+  "redis>=6,<7",
+  "sqlalchemy[asyncio]>=2.0,<3",
+  "structlog>=25.4,<26",
+  "uvicorn[standard]>=0.35,<1",
+]
+
+[project.urls]
+Homepage = "https://github.com/YSLee6429/LLM-APT"
+Documentation = "https://github.com/YSLee6429/LLM-APT/tree/main/docs"
+Issues = "https://github.com/YSLee6429/LLM-APT/issues"
+
+[project.scripts]
+llmapt = "llmapt.cli:main"
+
+[dependency-groups]
+dev = [
+  "mypy>=1.17,<2",
+  "pre-commit>=4.2,<5",
+  "pytest>=8.4,<9",
+  "pytest-asyncio>=1.1,<2",
+  "pytest-cov>=6.2,<7",
+  "ruff>=0.12,<1",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/llmapt"]
+
+[tool.pytest.ini_options]
+addopts = "--strict-config --strict-markers --cov=llmapt --cov-report=term-missing"
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "UP", "B", "A", "C4", "SIM", "RUF"]
+ignore = ["A005"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["llmapt"]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+files = ["src"]
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = ["celery", "celery.*"]
+ignore_missing_imports = true
+
+[tool.coverage.run]
+branch = true
+source = ["llmapt"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+fail_under = 80

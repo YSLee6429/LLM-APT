@@ -1,0 +1,27 @@
+{
+  "problem_id": "double",
+  "title": "Double an Integer",
+  "statement": "Read one integer n and print 2 * n.",
+  "language": "cpp",
+  "output_policy": "trim_trailing_whitespace",
+  "limits": {
+    "time_limit_ms": 1000,
+    "memory_limit_mb": 128,
+    "process_limit": 1,
+    "output_limit_bytes": 1048576
+  },
+  "tests": [
+    {
+      "case_id": "sample-positive",
+      "standard_input": "2\n",
+      "expected_output": "4\n",
+      "hidden": false
+    },
+    {
+      "case_id": "hidden-negative",
+      "standard_input": "-3\n",
+      "expected_output": "-6\n",
+      "hidden": true
+    }
+  ]
+}
